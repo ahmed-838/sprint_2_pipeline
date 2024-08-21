@@ -1,0 +1,17 @@
+{
+  "name": "task_sprint_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "echo 'No linter configured' && exit 0", 
+    "test": "echo 'No tests configured' && exit 0"  
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

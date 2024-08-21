@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Dependency directories
+.npm/
+
+# Build output
+dist/
+build/
+
+# Terraform
+.terraform/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+ansible/
+/ansible
+./ansible
+ansible
+
+/terraform
+terraform/
+./terraform 
+terraform
