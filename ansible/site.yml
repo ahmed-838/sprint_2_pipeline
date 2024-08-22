@@ -1,0 +1,50 @@
+- hosts: localhost
+  become: true
+
+  vars_files:
+    - group_vars/all/vault.yml
+
+  tasks:
+    - name: Install prerequisites
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: Install Docker IO
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Add user to Docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Restart Docker to apply group changes
+      service:
+        name: docker
+        state: restarted
+
+    - name: Log in to DockerHub
+      docker_login:
+        username: "{{ lookup('env', 'DOCKERHUB_USERNAME') }}"
+        password: "{{ lookup('env', 'DOCKERHUB_PASSWORD') }}"
+
+    - name: Pull Docker image from DockerHub
+      docker_image:
+        name: my-app
+        tag: latest
+
+    - name: Run Docker container
+      docker_container:
+        name: my-app
+        image: my-app:latest
+        state: started
+        ports:
+          - "80:3000"

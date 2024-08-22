@@ -22,12 +22,12 @@ Thumbs.db
 .vscode/
 .idea/
 
-ansible/
-/ansible
-./ansible
-ansible
+# ansible/
+# /ansible
+# ./ansible
+# ansible
 
-/terraform
-terraform/
-./terraform 
-terraform
+# /terraform
+# terraform/
+# ./terraform 
+# terraform
