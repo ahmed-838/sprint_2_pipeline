@@ -1,0 +1,23 @@
+# Sensitive data and secrets
+vars/
+secrets/
+*.vault
+*.key
+*.pem
+
+# Local configuration and environment-specific files
+*.retry
+inventory
+
+# Temporary and backup files
+*.tmp
+*.bak
+
+# Logs and runtime data
+*.log
+*.pid
+
+# Ansible artifacts
+*.fact
+*.yaml
+vars.yml

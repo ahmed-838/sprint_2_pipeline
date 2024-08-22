@@ -1,35 +1,51 @@
-- hosts: localhost
+- name: Deploy application using Docker
+  hosts: webservers
   become: true
-
   vars_files:
-    - group_vars/all/vault.yml
+    - vars.yml
 
   tasks:
-    - name: Install prerequisites
+    - name: Clean up package cache
       apt:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - software-properties-common
+        update_cache: yes
+        cache_valid_time: 3600
+        force: yes
+
+    - name: Remove conflicting containerd package
+      apt:
+        name: containerd
+        state: absent
+        purge: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
         state: present
         update_cache: yes
 
-    - name: Install Docker IO
-      apt:
-        name: docker.io
+    - name: Ensure Docker group exists
+      group:
+        name: docker
         state: present
 
     - name: Add user to Docker group
       user:
-        name: "{{ ansible_user }}"
+        name: "{{ ansible_ssh_user }}"
         groups: docker
         append: yes
 
-    - name: Restart Docker to apply group changes
+    - name: Ensure Docker is running
       service:
         name: docker
-        state: restarted
+        state: started
+        enabled: yes
+
+    - name: Set permissions on Docker socket
+      file:
+        path: /var/run/docker.sock
+        owner: root
+        group: docker
+        mode: '0660'
 
     - name: Log in to DockerHub
       docker_login:
@@ -38,13 +54,14 @@
 
     - name: Pull Docker image from DockerHub
       docker_image:
-        name: my-app
-        tag: latest
+        name: ahmedshams8/my-app
+        tag: latest  # Update this if a different tag is used
+        source: pull
 
     - name: Run Docker container
       docker_container:
-        name: my-app
-        image: my-app:latest
+        name: myapp_container
+        image: ahmedshams8/my-app:latest  # Update this if a different tag is used
         state: started
         ports:
           - "80:3000"
