@@ -1,15 +1,15 @@
 # Define the VPC
 resource "aws_vpc" "main" {
-  cidr_block = var.vpc_cidr
-  enable_dns_support = true
+  cidr_block           = var.vpc_cidr
+  enable_dns_support   = true
   enable_dns_hostnames = true
 }
 
 # Define a public subnet within the VPC
 resource "aws_subnet" "public" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet_cidr
-  availability_zone = var.availability_zone
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet_cidr
+  availability_zone       = var.availability_zone
   map_public_ip_on_launch = true # Ensure instances in this subnet get a public IP
 }
 
@@ -60,18 +60,42 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
-# Define an EC2 instance
-resource "aws_instance" "web" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  subnet_id     = aws_subnet.public.id
-
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
-
+# Define EC2 instances
+resource "aws_instance" "instance_1" {
+  ami                        = var.ami_id
+  instance_type              = var.instance_type
+  key_name                   = var.key_name
+  subnet_id                  = aws_subnet.public.id
+  vpc_security_group_ids     = [aws_security_group.web_sg.id]
   associate_public_ip_address = true
 
   tags = {
-    Name = "WebServerInstance"
+    Name = "Instance1"
+  }
+}
+
+resource "aws_instance" "instance_2" {
+  ami                        = var.ami_id
+  instance_type              = var.instance_type
+  key_name                   = var.key_name
+  subnet_id                  = aws_subnet.public.id
+  vpc_security_group_ids     = [aws_security_group.web_sg.id]
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "Instance2"
+  }
+}
+
+resource "aws_instance" "instance_3" {
+  ami                        = var.ami_id
+  instance_type              = var.instance_type
+  key_name                   = var.key_name
+  subnet_id                  = aws_subnet.public.id
+  vpc_security_group_ids     = [aws_security_group.web_sg.id]
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "Instance3"
   }
 }
