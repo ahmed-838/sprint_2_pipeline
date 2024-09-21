@@ -5,13 +5,19 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "lint": "echo 'No linter configured' && exit 0", 
-    "test": "jest"  
+    "lint": "echo 'No linter configured' && exit 0",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "concurrently": "^9.0.1",
+    "express": "^4.19.2",
+    "puppeteer": "^23.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }
